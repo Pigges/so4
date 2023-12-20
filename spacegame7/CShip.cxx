@@ -16,6 +16,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  *
  */
+#include <iostream>
 #include "CShip.hxx"
 #include "CProjectile.hxx"
 #include "CShield.hxx"
@@ -334,7 +335,6 @@ void CShip::collision_callback(IWorldObject *pOtherObject)
 	{
 		return;
 	}
-
 	//did we just collide with a projectile?
 	if(pOtherObject->instance_get_flags() & CProjectile::InstanceFlag)
 	{
@@ -343,7 +343,7 @@ void CShip::collision_callback(IWorldObject *pOtherObject)
 		if(!pProjectile->get_dealt_damage() && pProjectile->get_parent_instance() != this->m_iInstanceId)
 		{
 			WeaponArch const *pArch = pProjectile->get_weapon_arch();
-
+			
 			//first apply the damage multiplier, which is usually 1.0 but for projectiles
 			//originating from the player, will depend on their stat modifiers
 			float flFinalHullDamage = pArch->flHullDamage * pProjectile->get_damage_multiplier();
@@ -397,11 +397,11 @@ void CShip::collision_callback(IWorldObject *pOtherObject)
 					IEntityInventory *pPlayerInventory = pPlayerEntity->get_inventory();
 					pPlayerInventory->add_items(qItemsAward);
 
-					/*
-					 * TODO: Need to apply the player's luck stat to determine how much additional
-					 * metal they will loot.
-					 */
-					float flMetalMultiplier = 1.0f;
+					
+					  //Added a multiplier for when you level up your luck skill, which increases metal drop rate.
+					 
+
+					float flMetalMultiplier = pPlayerEntity->get_stat(Stat::LUCK) * 0.3f;
 
 					unsigned int uiFinalMetalAward = (unsigned int)(flMetalMultiplier * uiMetalAward);
 
@@ -420,7 +420,7 @@ void CShip::collision_callback(IWorldObject *pOtherObject)
 
 					if(uiMetalAward)
 					{
-						ss << std::endl << "+" << uiMetalAward << " Metal";
+						ss << std::endl << "+" << uiFinalMetalAward << " Metal";
 					}
 
 					for(QuantityMap::iterator i = qItemsAward.begin(); i != qItemsAward.end(); ++i)
