@@ -62,11 +62,18 @@ void CWeaponInstance::fire(void)
 	}
 	else
 	{
-		// TODO: Need to compute the damage multiplier according
-		// to the shooter's stats.
-		// For now, damage multiplier is always 1.0.
-
+		// If the projectile type is a missile, then apply bonus damage from the skill "Missile proficiency". If it's an energy or kitetic weapon, apply effective stat instead then.
 		parms.flDamageMultiplier = 1.0f;
+
+		if (pWeapArch->uiArchType == ARCH_MISSILE) {
+			parms.flDamageMultiplier += pOriginatingEntity->get_stat(Stat::MISSILE_PROFICIENCY) * 0.2f;
+		}
+		else if(pWeapArch->flEnergyCost == 0){
+			parms.flDamageMultiplier += pOriginatingEntity->get_stat(Stat::KINETIC_PROFICIENCY) * 0.2f;
+		}
+		else {
+			parms.flDamageMultiplier += pOriginatingEntity->get_stat(Stat::LASER_PROFICIENCY) * 0.2f;
+		}
 	}
 
 	parms.vPosition = vInitialPosition;
