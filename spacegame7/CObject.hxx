@@ -77,6 +77,10 @@ public:
 	virtual void set_position(Vector2f const &);
 	virtual float get_rotation(void);
 	virtual void set_rotation(float const);
+	//Golijats code
+	bool is_locked;
+	virtual void lock_rotation(bool const);
+	//--------
 	virtual AppearanceId get_appearance(void);
 	virtual void set_appearance(AppearanceId) final;
 	virtual bool is_initialized(void) final;
