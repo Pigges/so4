@@ -41,10 +41,14 @@ bool CSpellMagneticDrain::cast(InstanceId const iCaster, InstanceId const iTarge
 		return false;
 	}
 
+	if (pCaster->get_position().distance(pTarget->get_position()) < 75.0f) {
+		return false;
+	}
+
 	SG::get_audio_manager()->play_sound(17);
 	SG::get_particle_manager()->add_particle(13, pTarget->get_position(), pTarget->get_velocity(), 0.0f, 0.0f);
 	SG::get_particle_manager()->add_particle(14, pCaster->get_position(), pCaster->get_velocity(), 0.0f, 0.0f);
-	
+
 	//We want to drain UP TO 30% of OUR max energy, from the target's capacitor
 	float flEnergyToDrain = clamp(pTarget->get_capacitor_energy(), 0.0f, 0.30f * pCaster->get_max_capacitor_energy());
 
