@@ -56,6 +56,20 @@ void CBaseCharacterEntity::set_name(std::string const &szName)
 	this->m_szName = szName;
 }
 
+float CBaseCharacterEntity::get_health(void)
+{
+	SCOPE_LOCK(this->m_mFieldAccess);
+
+	return this->m_flHealth;
+}
+
+void CBaseCharacterEntity::set_health(float const& m_flHealth)
+{
+	SCOPE_LOCK(this->m_mFieldAccess);
+
+	this->m_flHealth = m_flHealth;
+}
+
 IEntityInventory *CBaseCharacterEntity::get_inventory(void)
 {
 	SCOPE_LOCK(this->m_mFieldAccess);

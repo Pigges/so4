@@ -174,9 +174,8 @@ void CInSpaceState::state_initializing(void)
 	parms.flAngularVelocity = 0.0f;
 	parms.pArch = this->m_pGameDataManager->get_arch<ShipArch>(pPlayerEntity->get_ship());
 	parms.uiAppearanceId = parms.pArch->uiShipAppearance;
-	parms.flHitPoints = parms.pArch->flMaxHitPoints;
+	parms.flHitPoints = pPlayerEntity->get_health() < 0 ? parms.pArch->flMaxHitPoints : pPlayerEntity->get_health();
 	parms.flRadius = 64.0f;
-	parms.flHitPoints = parms.pArch->flMaxHitPoints;
 	parms.flShieldPoints = parms.pArch->flMaxShieldPoints;
 	parms.szName = "Player";
 	parms.pFaction = nullptr;

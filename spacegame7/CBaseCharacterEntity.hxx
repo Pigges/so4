@@ -73,6 +73,9 @@ public:
 	virtual void set_name(std::string const &) final;
 	virtual std::string get_name(void) final;
 
+	virtual void set_health(float const&) final;
+	virtual float get_health(void) final;
+
 	virtual CStatBlock *get_stat_block(void) final;
 
 	virtual bool has_skill(SkillId const) final;
@@ -92,6 +95,7 @@ protected:
 	Loadout m_lLoadout;
 	bool m_bPlayer;
 	std::string m_szName;
+	float m_flHealth = -1;
 	SpellSet m_vKnownSpells;
 	SpellSet m_vMappedSpells;
 	std::unordered_map<SpellId, float> m_vSpellCooldown;

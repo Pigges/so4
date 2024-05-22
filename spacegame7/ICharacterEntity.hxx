@@ -72,6 +72,9 @@ interface ICharacterEntity
 	virtual void set_name(std::string const &) = 0;
 	virtual std::string get_name() = 0;
 
+	virtual void set_health(float const&) = 0;
+	virtual float get_health() = 0;
+
 	virtual CStatBlock *get_stat_block(void) = 0;
 
 	virtual unsigned int get_ship(void) = 0;

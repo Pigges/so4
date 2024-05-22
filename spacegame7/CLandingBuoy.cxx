@@ -211,6 +211,9 @@ void CLandingBuoy::interact(InstanceId const interactor)
 				//SG::get_audio_manager()->play_sound(10);
 
 				SG::get_game_state_manager()->get_game_state()->state_send_notification("Docking...");
+
+				// Remember health after state transision
+				SG::get_intransient_data_manager()->get_character_entity_manager()->get_player_character_entity()->set_health(pInteractorShip->get_hit_pts());
 			}
 			else
 			{
