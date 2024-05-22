@@ -41,6 +41,10 @@ bool CSpellNavComVirus::cast(InstanceId const iCaster, InstanceId const iTarget)
 		return false;
 	}
 
+	if (pCaster->get_position().distance(pTarget->get_position()) < 75.0f) {
+		return false;
+	}
+
 	SG::get_audio_manager()->play_sound(14);
 	SG::get_particle_manager()->add_particle(12, pTarget->get_position(), pTarget->get_velocity(), 0.0f, 0.0f);
 

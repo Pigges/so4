@@ -276,9 +276,13 @@ void CInSpaceState::state_prerender_tick(sf::View &mainView, sf::RenderWindow &s
 	volatile bool bContinue = this->m_bInputEnabled;
 	this->m_mFieldAccess.unlock();
 
-	if(!bContinue)
+	if(this->m_pPlayer != nullptr && !bContinue)
 	{
+		this->m_pPlayer->lock_rotation(true);
 		return;
+	}
+	else {
+		this->m_pPlayer->lock_rotation(false);
 	}
 
 	//BEGIN TESTING CODE
@@ -294,43 +298,75 @@ void CInSpaceState::state_prerender_tick(sf::View &mainView, sf::RenderWindow &s
 			{
 				if(this->m_bTrackMode)
 				{
-					CAIController::aim_at_point(this->m_pPlayer, Vector2f(relativeWorldPos.x, relativeWorldPos.y));
+					CAIController::aim_at_point(this->m_pPlayer, Vector2f(relativeWorldPos.x, relativeWorldPos.y));//(1, 1));//relativeWorldPos.x, relativeWorldPos.y));
+
+					if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
+					{
+						this->m_pPlayer->fire_weapons_if_ready(ARCH_WEAPON);
+					}
+
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
+					{
+						this->m_pPlayer->set_throttle(1.0f);
+					}
+					else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
+					{
+						this->m_pPlayer->set_throttle(-1.0f);
+					}
+					else
+					{
+						this->m_pPlayer->set_throttle(0.0f);
+					}
+
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
+					{
+						this->m_pPlayer->set_strafe_throttle(-1.0f);
+					}
+					else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
+					{
+						this->m_pPlayer->set_strafe_throttle(1.0f);
+					}
+					else
+					{
+						this->m_pPlayer->set_strafe_throttle(0.0f);
+					}
 				}
 				else
 				{
-					this->m_pPlayer->set_spin_throttle(0.0f);
+				CAIController::aim_at_point(this->m_pPlayer, Vector2f(relativeWorldPos.x, relativeWorldPos.y));
+				this->m_pPlayer->set_spin_throttle(0.0f);
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z))
+					{
+						this->m_pPlayer->fire_weapons_if_ready(ARCH_WEAPON);
+					}
+				
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up))
+					{
+						this->m_pPlayer->set_throttle(1.0f);
+					}
+					else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down))
+					{
+						this->m_pPlayer->set_throttle(-1.0f);
+					}
+					else
+					{
+						this->m_pPlayer->set_throttle(0.0f);
+					}
+				
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left))
+					{
+						this->m_pPlayer->set_spin_throttle(1.0f);
+					}
+					else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right))
+					{
+						this->m_pPlayer->set_spin_throttle(-1.0f);
+					}
+					else
+					{
+						this->m_pPlayer->set_spin_throttle(0.0f);
+					}
 				}
 
-				if(sf::Mouse::isButtonPressed(sf::Mouse::Right))
-				{
-					this->m_pPlayer->fire_weapons_if_ready(ARCH_WEAPON);
-				}
-
-				if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
-				{
-					this->m_pPlayer->set_throttle(1.0f);
-				}
-				else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
-				{
-					this->m_pPlayer->set_throttle(-1.0f);
-				}
-				else
-				{
-					this->m_pPlayer->set_throttle(0.0f);
-				}
-
-				if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
-				{
-					this->m_pPlayer->set_strafe_throttle(-1.0f);
-				}
-				else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
-				{
-					this->m_pPlayer->set_strafe_throttle(1.0f);
-				}
-				else
-				{
-					this->m_pPlayer->set_strafe_throttle(0.0f);
-				}
 			}
 			else
 			{

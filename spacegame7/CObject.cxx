@@ -153,6 +153,12 @@ void CObject::set_rotation(float const newRotation)
 	this->m_flRotation = newRotation;
 }
 
+//Golijat code
+void CObject::lock_rotation(bool lockOrNot) {
+	this->is_locked = lockOrNot;
+}
+// ------
+
 Vector2f CObject::get_velocity(void)
 {
 	SCOPE_LOCK(this->m_mFieldAccess);
@@ -294,12 +300,16 @@ void CObject::physics_tick(float const flDelta)
 	this->m_vOldPosition = this->m_vPosition;
 	this->m_vOldVelocity = this->m_vVelocity;
 	this->m_flOldRotation = this->m_flRotation;
-	this->m_flOldAngularVelocity = this->m_flAngularVelocity;
+	// Golijat Code
+	this->m_flOldAngularVelocity = this->is_locked ? 0.0f : this->m_flAngularVelocity;
+	// ----
 
 	this->m_vPosition = vNewPosition;
 	this->m_vVelocity = vNewVelocity;
 	this->m_flRotation = flNewRotation;
-	this->m_flAngularVelocity = flNewAngVel;
+	// Golijat code
+	this->m_flAngularVelocity = this->is_locked ? 0.0f : flNewAngVel;
+	// -----
 
 	if(std::isinf(this->m_vPosition.x) || std::isnan(this->m_vPosition.x) ||
 		std::isinf(this->m_vPosition.y) || std::isnan(this->m_vPosition.y))
