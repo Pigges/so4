@@ -73,7 +73,7 @@ public:
 	virtual void set_name(std::string const &) final;
 	virtual std::string get_name(void) final;
 
-	virtual void set_health(float const&) final;
+	virtual void set_health(float const) final;
 	virtual float get_health(void) final;
 
 	virtual CStatBlock *get_stat_block(void) final;

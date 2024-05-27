@@ -63,7 +63,7 @@ float CBaseCharacterEntity::get_health(void)
 	return this->m_flHealth;
 }
 
-void CBaseCharacterEntity::set_health(float const& m_flHealth)
+void CBaseCharacterEntity::set_health(float const m_flHealth)
 {
 	SCOPE_LOCK(this->m_mFieldAccess);
 
